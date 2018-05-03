@@ -38,6 +38,7 @@ public final class LeakCanary {
    * references (on ICS+).
    */
   public static RefWatcher install(Application application) {
+    //创建RefWatcher
     return refWatcher(application).listenerServiceClass(DisplayLeakService.class)
         .excludedRefs(AndroidExcludedRefs.createAppDefaults().build())
         .buildAndInstall();

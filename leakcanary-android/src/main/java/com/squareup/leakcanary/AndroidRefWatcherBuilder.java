@@ -70,13 +70,18 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
    * @throws UnsupportedOperationException if called more than once per Android process.
    */
   public RefWatcher buildAndInstall() {
+    //只能创建一次
     if (LeakCanaryInternals.installedRefWatcher != null) {
       throw new UnsupportedOperationException("buildAndInstall() should only be called once.");
     }
+    //创建RefWatcher
     RefWatcher refWatcher = build();
     if (refWatcher != DISABLED) {
+
       LeakCanary.enableDisplayLeakActivity(context);
+      //默认为true
       if (watchActivities) {
+        //监听Activity的生命周期
         ActivityRefWatcher.install((Application) context, refWatcher);
       }
     }
@@ -106,6 +111,7 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
   }
 
   @Override protected WatchExecutor defaultWatchExecutor() {
+    //默认线程池
     return new AndroidWatchExecutor(DEFAULT_WATCH_DELAY_MILLIS);
   }
 }

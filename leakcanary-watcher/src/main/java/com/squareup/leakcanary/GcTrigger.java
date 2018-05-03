@@ -28,7 +28,9 @@ public interface GcTrigger {
       // java/lang/ref/FinalizationTester.java
       // System.gc() does not garbage collect every time. Runtime.gc() is
       // more likely to perfom a gc.
+      //这里用的是Runtime.getRuntime().gc()
       Runtime.getRuntime().gc();
+      //等待100毫秒
       enqueueReferences();
       System.runFinalization();
     }

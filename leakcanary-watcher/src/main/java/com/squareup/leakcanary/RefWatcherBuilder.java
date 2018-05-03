@@ -77,6 +77,7 @@ public class RefWatcherBuilder<T extends RefWatcherBuilder<T>> {
 
     WatchExecutor watchExecutor = this.watchExecutor;
     if (watchExecutor == null) {
+      //创建默认的监听内存泄漏的线程池
       watchExecutor = defaultWatchExecutor();
     }
 

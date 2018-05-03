@@ -37,9 +37,12 @@ public final class AndroidWatchExecutor implements WatchExecutor {
   private final long maxBackoffFactor;
 
   public AndroidWatchExecutor(long initialDelayMillis) {
+    //主线程Handler
     mainHandler = new Handler(Looper.getMainLooper());
+    //这里new了一个HandlerThread，内部封装好了looper.prepare()等操作
     HandlerThread handlerThread = new HandlerThread(LEAK_CANARY_THREAD_NAME);
     handlerThread.start();
+    //handlerThread内部等handler
     backgroundHandler = new Handler(handlerThread.getLooper());
     this.initialDelayMillis = initialDelayMillis;
     maxBackoffFactor = Long.MAX_VALUE / initialDelayMillis;
