@@ -32,6 +32,7 @@ public abstract class AbstractAnalysisResultService extends IntentService {
     } catch (ClassNotFoundException e) {
       throw new RuntimeException(e);
     }
+    //启动Service通知，抽象类，DisplayLeakService
     Intent intent = new Intent(context, listenerServiceClass);
     intent.putExtra(HEAP_DUMP_EXTRA, heapDump);
     intent.putExtra(RESULT_EXTRA, result);

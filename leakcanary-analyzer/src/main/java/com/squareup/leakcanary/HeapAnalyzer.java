@@ -111,6 +111,7 @@ public final class HeapAnalyzer {
     }
 
     try {
+      // 将 dump 文件解析成 snapshot 对象，haha库的用法
       HprofBuffer buffer = new MemoryMappedFileBuffer(heapDumpFile);
       HprofParser parser = new HprofParser(buffer);
       Snapshot snapshot = parser.parse();
@@ -122,7 +123,7 @@ public final class HeapAnalyzer {
       if (leakingRef == null) {
         return noLeak(since(analysisStartNanoTime));
       }
-
+      // 找到泄漏路径
       return findLeakTrace(analysisStartNanoTime, snapshot, leakingRef);
     } catch (Throwable e) {
       return failure(e, since(analysisStartNanoTime));
@@ -199,6 +200,7 @@ public final class HeapAnalyzer {
       retainedSize += computeIgnoredBitmapRetainedSize(snapshot, leakingInstance);
     }
 
+    // 使用haha这个库去建立最短引用路径
     return leakDetected(result.excludingKnownLeaks, className, leakTrace, retainedSize,
         since(analysisStartNanoTime));
   }

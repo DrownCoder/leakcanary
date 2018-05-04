@@ -54,8 +54,9 @@ public final class HeapAnalyzerService extends IntentService {
     HeapDump heapDump = (HeapDump) intent.getSerializableExtra(HEAPDUMP_EXTRA);
 
     HeapAnalyzer heapAnalyzer = new HeapAnalyzer(heapDump.excludedRefs);
-
+    //分析获得结果
     AnalysisResult result = heapAnalyzer.checkForLeak(heapDump.heapDumpFile, heapDump.referenceKey);
+    //回调结果
     AbstractAnalysisResultService.sendResultToListener(this, listenerClassName, heapDump, result);
   }
 }

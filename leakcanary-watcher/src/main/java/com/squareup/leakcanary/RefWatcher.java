@@ -133,13 +133,14 @@ public final class RefWatcher {
       //如果该对象仍然在retainedKey中，则说明内存泄漏了，进行分析
       long startDumpHeap = System.nanoTime();
       long gcDurationMs = NANOSECONDS.toMillis(startDumpHeap - gcStartNanoTime);
-
+      // dump出来heap，此时认为内存确实已经泄漏了
       File heapDumpFile = heapDumper.dumpHeap();
       if (heapDumpFile == RETRY_LATER) {
         // Could not dump the heap.
         return RETRY;
       }
       long heapDumpDurationMs = NANOSECONDS.toMillis(System.nanoTime() - startDumpHeap);
+      //开始分析
       heapdumpListener.analyze(
           new HeapDump(heapDumpFile, reference.key, reference.name, excludedRefs, watchDurationMs,
               gcDurationMs, heapDumpDurationMs));

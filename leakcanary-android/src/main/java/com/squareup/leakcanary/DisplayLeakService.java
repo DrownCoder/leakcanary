@@ -56,10 +56,12 @@ public class DisplayLeakService extends AbstractAnalysisResultService {
     String contentText;
 
     if (!shouldSaveResult) {
+      //无泄露
       contentTitle = getString(R.string.leak_canary_no_leak_title);
       contentText = getString(R.string.leak_canary_no_leak_text);
       pendingIntent = null;
     } else if (resultSaved) {
+      //获得一个pendingIntent
       pendingIntent = DisplayLeakActivity.createPendingIntent(this, heapDump.referenceKey);
 
       if (result.failure == null) {
@@ -81,6 +83,7 @@ public class DisplayLeakService extends AbstractAnalysisResultService {
     }
     // New notification id every second.
     int notificationId = (int) (SystemClock.uptimeMillis() / 1000);
+    //显示一个通知，显示内存泄漏
     showNotification(this, contentTitle, contentText, pendingIntent, notificationId);
     afterDefaultHandling(heapDump, result, leakInfo);
   }
