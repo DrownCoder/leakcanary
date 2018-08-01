@@ -81,7 +81,7 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
       LeakCanary.enableDisplayLeakActivity(context);
       //默认为true
       if (watchActivities) {
-        //监听Activity的生命周期
+        //注意，在这里通过监听Application,监听Activity的生命周期
         ActivityRefWatcher.install((Application) context, refWatcher);
       }
     }

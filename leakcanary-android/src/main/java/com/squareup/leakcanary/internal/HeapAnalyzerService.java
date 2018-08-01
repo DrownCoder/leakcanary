@@ -35,8 +35,11 @@ public final class HeapAnalyzerService extends IntentService {
 
   public static void runAnalysis(Context context, HeapDump heapDump,
       Class<? extends AbstractAnalysisResultService> listenerServiceClass) {
+    //开启一个IntentService用于分析内存泄漏
     Intent intent = new Intent(context, HeapAnalyzerService.class);
+    //将回调的监听Service的class传入，分析完成，回调到这个service
     intent.putExtra(LISTENER_CLASS_EXTRA, listenerServiceClass.getName());
+    //收集的文件
     intent.putExtra(HEAPDUMP_EXTRA, heapDump);
     context.startService(intent);
   }

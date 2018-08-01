@@ -112,6 +112,8 @@ public final class RefWatcher {
   @SuppressWarnings("ReferenceEquality") // Explicitly checking for named null.
     // 避免因为gc不及时带来的误判，leakcanay会手动进行gc,进行二次确认进行保证
   Retryable.Result ensureGone(final KeyedWeakReference reference, final long watchStartNanoTime) {
+    //System.currentTimeMillis，那么每次的结果将会差别很小，甚至一样，因为现代的计算机运行速度很快
+    //检测系统的耗时所用，所以使用System.nanoTime提供相对精确的计时
     long gcStartNanoTime = System.nanoTime();
     long watchDurationMs = NANOSECONDS.toMillis(gcStartNanoTime - watchStartNanoTime);
     //第一次判断，移除此时已经被回收的对象

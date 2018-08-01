@@ -54,33 +54,33 @@ public class RefWatcherBuilder<T extends RefWatcherBuilder<T>> {
     if (isDisabled()) {
       return RefWatcher.DISABLED;
     }
-
+    //用于排除某些系统bug导致的内存泄露
     ExcludedRefs excludedRefs = this.excludedRefs;
     if (excludedRefs == null) {
       excludedRefs = defaultExcludedRefs();
     }
-
+    //用于分析生成的dump文件，找到内存泄露的原因
     HeapDump.Listener heapDumpListener = this.heapDumpListener;
     if (heapDumpListener == null) {
       heapDumpListener = defaultHeapDumpListener();
     }
-
+    //用于查询是否正在调试中，调试中不会执行内存泄露检测
     DebuggerControl debuggerControl = this.debuggerControl;
     if (debuggerControl == null) {
       debuggerControl = defaultDebuggerControl();
     }
-
+    //用于在产生内存泄露室执行dump 内存heap
     HeapDumper heapDumper = this.heapDumper;
     if (heapDumper == null) {
       heapDumper = defaultHeapDumper();
     }
-
+    //执行内存泄露检测的executor
     WatchExecutor watchExecutor = this.watchExecutor;
     if (watchExecutor == null) {
       //创建默认的监听内存泄漏的线程池
       watchExecutor = defaultWatchExecutor();
     }
-
+    //用于在判断内存泄露之前，再给一次GC的机会
     GcTrigger gcTrigger = this.gcTrigger;
     if (gcTrigger == null) {
       gcTrigger = defaultGcTrigger();

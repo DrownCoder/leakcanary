@@ -40,6 +40,7 @@ public final class LeakCanary {
   public static RefWatcher install(Application application) {
     //创建RefWatcher
     return refWatcher(application).listenerServiceClass(DisplayLeakService.class)
+            //设置已知的内存泄漏问题，或者系统的内存泄漏问题
         .excludedRefs(AndroidExcludedRefs.createAppDefaults().build())
         .buildAndInstall();
   }
@@ -55,6 +56,9 @@ public final class LeakCanary {
     return refWatcher;
   }
 
+  /**
+   * 创建一个builder对象
+   */
   public static AndroidRefWatcherBuilder refWatcher(Context context) {
     return new AndroidRefWatcherBuilder(context);
   }
