@@ -29,6 +29,7 @@ public interface GcTrigger {
       // System.gc() does not garbage collect every time. Runtime.gc() is
       // more likely to perfom a gc.
       //这里用的是Runtime.getRuntime().gc()
+      //注意这里和System.gc()的区别
       Runtime.getRuntime().gc();
       //等待100毫秒
       enqueueReferences();

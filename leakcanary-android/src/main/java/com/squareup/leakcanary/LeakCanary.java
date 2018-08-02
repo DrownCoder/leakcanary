@@ -161,6 +161,7 @@ public final class LeakCanary {
     Boolean isInAnalyzerProcess = LeakCanaryInternals.isInAnalyzerProcess;
     // This only needs to be computed once per process.
     if (isInAnalyzerProcess == null) {
+      //判断进程是否在后台，重要
       isInAnalyzerProcess = isInServiceProcess(context, HeapAnalyzerService.class);
       LeakCanaryInternals.isInAnalyzerProcess = isInAnalyzerProcess;
     }

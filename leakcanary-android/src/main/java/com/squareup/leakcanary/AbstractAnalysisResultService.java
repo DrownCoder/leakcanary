@@ -34,6 +34,7 @@ public abstract class AbstractAnalysisResultService extends IntentService {
     }
     //启动Service通知，抽象类，DisplayLeakService
     Intent intent = new Intent(context, listenerServiceClass);
+    //将分析的信息传回给Service,发出内存泄漏的通知
     intent.putExtra(HEAP_DUMP_EXTRA, heapDump);
     intent.putExtra(RESULT_EXTRA, result);
     context.startService(intent);

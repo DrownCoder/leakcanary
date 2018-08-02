@@ -51,6 +51,7 @@ public class RefWatcherBuilder<T extends RefWatcherBuilder<T>> {
 
   /** Creates a {@link RefWatcher}. */
   public final RefWatcher build() {
+    // 判断install是否在Analyzer进程里，重复执行
     if (isDisabled()) {
       return RefWatcher.DISABLED;
     }

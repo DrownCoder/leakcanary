@@ -114,6 +114,7 @@ public final class LeakCanaryInternals {
     }
 
     if (serviceInfo.processName.equals(mainProcess)) {
+      //如果服务进程和主进程是同一个进程，那就不对了
       CanaryLog.d("Did not expect service %s to run in main process %s", serviceClass, mainProcess);
       // Technically we are in the service process, but we're not in the service dedicated process.
       return false;
@@ -133,6 +134,7 @@ public final class LeakCanaryInternals {
     }
     if (runningProcesses != null) {
       for (ActivityManager.RunningAppProcessInfo process : runningProcesses) {
+        //获取当前正在前台对进程
         if (process.pid == myPid) {
           myProcess = process;
           break;

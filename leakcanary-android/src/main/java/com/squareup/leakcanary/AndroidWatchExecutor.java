@@ -39,7 +39,7 @@ public final class AndroidWatchExecutor implements WatchExecutor {
   public AndroidWatchExecutor(long initialDelayMillis) {
     //主线程Handler
     mainHandler = new Handler(Looper.getMainLooper());
-    //这里new了一个HandlerThread，内部封装好了looper.prepare()等操作
+    //这里new了一个HandlerThread，也就是一个异步线程，内部封装好了looper.prepare()等操作
     HandlerThread handlerThread = new HandlerThread(LEAK_CANARY_THREAD_NAME);
     handlerThread.start();
     //handlerThread内部的handler
@@ -69,6 +69,7 @@ public final class AndroidWatchExecutor implements WatchExecutor {
     Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
       @Override public boolean queueIdle() {
         postToBackgroundWithDelay(retryable, failedAttempts);
+        //return false,说明只执行一遍
         return false;
       }
     });
@@ -79,7 +80,9 @@ public final class AndroidWatchExecutor implements WatchExecutor {
     long delayMillis = initialDelayMillis * exponentialBackoffFactor;
     backgroundHandler.postDelayed(new Runnable() {
       @Override public void run() {
+        //执行分析
         Retryable.Result result = retryable.run();
+        //如果结果是RETRY，则稍后重试，这个对应于debug
         if (result == RETRY) {
           postWaitForIdle(retryable, failedAttempts + 1);
         }

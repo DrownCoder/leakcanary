@@ -90,6 +90,7 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
   }
 
   @Override protected boolean isDisabled() {
+    //用于判断服务进程是否在前台，重要
     return LeakCanary.isInAnalyzerProcess(context);
   }
 
@@ -111,7 +112,7 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
   }
 
   @Override protected WatchExecutor defaultWatchExecutor() {
-    //默认线程池
+    //默认线程池，5s
     return new AndroidWatchExecutor(DEFAULT_WATCH_DELAY_MILLIS);
   }
 }

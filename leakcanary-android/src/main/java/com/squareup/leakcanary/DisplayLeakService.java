@@ -38,6 +38,10 @@ import static com.squareup.leakcanary.internal.LeakCanaryInternals.showNotificat
  * You can extend this class and override {@link #afterDefaultHandling(HeapDump, AnalysisResult,
  * String)} to add custom behavior, e.g. uploading the heap dump.
  */
+
+/**
+ * 同样是个IntentService
+ */
 public class DisplayLeakService extends AbstractAnalysisResultService {
 
   @Override protected final void onHeapAnalyzed(HeapDump heapDump, AnalysisResult result) {
